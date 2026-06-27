@@ -1,0 +1,1 @@
+cantidad_grupo = int(entrada)

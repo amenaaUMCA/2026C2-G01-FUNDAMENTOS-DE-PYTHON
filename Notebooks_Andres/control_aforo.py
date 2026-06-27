@@ -71,5 +71,36 @@ Otros casos para probar:
 - Texto, 0 o negativos -> entrada inválida y el programa continúa.
 """
 
-
 # Desarrolle su solución a partir de esta línea.
+CAPACIDAD_MAXIMA = 700
+grupos_aceptados = []
+grupo_rechazados = []
+ocupacion_actual = 0
+entrada = ""
+
+print("CONTROL DE INGRESO - ANFITEATRO DEL CENAC")
+print("Capacidad máxima: 700 personas\n")
+
+while not (entrada == "fin"):
+    entrada = (input("\nEscriba 'fin' para terminar.\nIngresa la cantidad del grupo:").lower().strip())
+    try:
+        cantidad_grupo = int(entrada)
+        if cantidad_grupo <= 0:
+            print("Entrada inválida: escriba una cantidad positiva o 'fin'.")
+        elif ocupacion_actual + cantidad_grupo <= CAPACIDAD_MAXIMA:
+            grupos_aceptados.append(cantidad_grupo)
+            ocupacion_actual += cantidad_grupo
+            print(f"Grupo aceptado: ingresan {cantidad_grupo} personas")
+        else:
+            grupo_rechazados.append(cantidad_grupo)# aforo completo
+            print(f"Grupo rechazado: no hay espacio para {cantidad_grupo} personas")
+        espacios_disponibles = CAPACIDAD_MAXIMA - ocupacion_actual
+        print(f"Ocupación actual: {ocupacion_actual}")
+        print(f"Espacios diposnibles: {espacios_disponibles}")
+    except ValueError:
+        if entrada == "fin":
+            print("Cerrando sistema ..")
+        else:
+            print("Entrada inválida: escriba un numero positivo o 'fin'.")
+print(grupos_aceptados)
+print(grupo_rechazados)
