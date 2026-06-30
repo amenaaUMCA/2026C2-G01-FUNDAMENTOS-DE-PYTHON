@@ -3,36 +3,67 @@
 ## Caso: Analisis de emprendimientos costarricenses
 
 **Archivo base del estudiante:** `clase07_analisis_emprendimientos.py`  
-**Fuente de datos:** `sedes.py`
+**Fuente de datos:** `sedes.py`  
+**Solucion docente de referencia:** `analisis_emprendimientos_solucion.py`
 
-> Importante: no modifique `sedes.py`. Ese archivo representa la fuente de datos.
-> Tampoco modifique el archivo original de referencia si el docente lo entrega como
-> plantilla. Trabaje sobre una copia si desea conservar el punto de partida.
-
----
-
-## 1. Que problema vamos a resolver
-
-La red **EmprendeCR** agrupa varios emprendimientos costarricenses. Cada sede
-registro sus ventas de lunes a viernes y tiene una meta semanal.
-
-El programa debe responder:
-
-1. Cuanto vendio cada sede en total.
-2. Cual fue su promedio diario.
-3. Que porcentaje de su meta alcanzo.
-4. Si la sede alcanzo la meta, esta cerca o requiere atencion.
-5. Que provincias aparecen en los datos.
-6. Cual sede tuvo la venta total mas alta.
-
-La solucion esperada no es solo imprimir numeros. Debe convertir datos en un
-reporte claro para tomar decisiones.
+> No modifique `sedes.py` ni `clase07_analisis_emprendimientos.py`. La guia explica como llevar el archivo de clase desde el import inicial hasta la solucion esperada.
 
 ---
 
-## 2. Punto de partida
+## 1. Meta de la sesion
 
-El archivo base `clase07_analisis_emprendimientos.py` empieza asi:
+La red **EmprendeCR** tiene varias sedes en Costa Rica. Cada sede registra ventas de lunes a viernes y una meta semanal.
+
+Al terminar, el programa debe construir un reporte que indique:
+
+1. Total semanal vendido por sede.
+2. Promedio diario de ventas.
+3. Porcentaje de cumplimiento de la meta.
+4. Clasificacion con condicionales.
+5. Provincias analizadas sin repetir.
+6. Ranking base con nombre de sede y total.
+7. Sede o sedes con la venta mas alta, incluyendo empates.
+
+La clase no busca solo imprimir datos. Busca practicar como un algoritmo convierte una lista de registros en informacion util para decidir.
+
+---
+
+## 2. Recurso inicial: lista, tupla, diccionario o set
+
+Antes de programar, defina que estructura responde mejor a cada necesidad.
+
+| Estructura | Se escribe | Cuando usarla | Ejemplo en EmprendeCR | Cuidado principal |
+|---|---|---|---|---|
+| Lista | `[]` | Cuando hay varios datos relacionados y conviene recorrerlos o conservar su orden. | Ventas de lunes a viernes: `[85000, 92000, 78000]` | No depender de indices sin explicar que representan. |
+| Tupla | `()` | Cuando quiero guardar un par o grupo fijo que no necesito modificar. | Par para ranking: `("Soda San Pedro", 462000)` | No intentar cambiar sus valores como si fuera lista. |
+| Diccionario | `{}` | Cuando un registro tiene campos con nombre. | Una sede: `{"nombre": "Soda San Pedro", "ventas": [...]}` | Escribir exactamente las claves. |
+| Set | `set()` | Cuando necesito valores unicos, sin repetidos. | Provincias presentes: `{"San Jose", "Cartago"}` | No usarlo cuando el orden importa. |
+
+### Regla rapida de decision
+
+- Use **lista** si son varios valores que se recorren.
+- Use **diccionario** si cada dato tiene nombre propio.
+- Use **tupla** si necesita guardar un par fijo de resultado.
+- Use **set** si necesita eliminar repetidos automaticamente.
+
+### Como se aplica en este caso
+
+| Necesidad del programa | Estructura recomendada | Por que |
+|---|---|---|
+| Guardar todas las sedes | Lista de diccionarios | Permite hacer `for sede in sedes`. |
+| Guardar los datos de una sede | Diccionario | Cada campo tiene nombre: `nombre`, `provincia`, `ventas`, `meta`. |
+| Guardar las ventas diarias | Lista | Son varios numeros relacionados. |
+| Guardar provincias sin repetir | Set | Evita duplicados sin escribir condicionales extra. |
+| Guardar nombre y total para ranking | Tupla | Es un par fijo: `(nombre, total)`. |
+| Guardar el reporte final | Lista de diccionarios | Cada fila del reporte tiene varios campos calculados. |
+
+El recurso visual tambien queda disponible en `recurso_estructuras_datos_semana07.html`.
+
+---
+
+## 3. Punto de partida
+
+El archivo base inicia asi:
 
 ```python
 """Practica Semana 07: analisis de emprendimientos costarricenses.
@@ -40,475 +71,386 @@ El archivo base `clase07_analisis_emprendimientos.py` empieza asi:
 Complete los espacios marcados con TODO. El objetivo es generar un reporte por
 sede usando listas, diccionarios, funciones, ciclos y condicionales.
 """
-
 from sedes import sedes
 ```
 
-### Por que empezamos con `from sedes import sedes`
+### Por que iniciar con `from sedes import sedes`
 
-Usamos un archivo separado para los datos porque en un programa real conviene
-separar:
-
-| Parte | Responsabilidad |
-|---|---|
-| `sedes.py` | Guardar los datos base. |
-| `clase07_analisis_emprendimientos.py` | Resolver el analisis. |
-| `analisis_emprendimientos_solucion.py` | Mostrar la solucion docente esperada. |
-
-Esto ayuda a que el algoritmo sea mas limpio: el estudiante se concentra en
-procesar datos, no en copiarlos.
+`sedes.py` contiene los datos. El archivo de clase contiene el algoritmo. Esta separacion permite concentrarse en procesar informacion sin copiar datos dentro del programa principal.
 
 ---
 
-## 3. Comprender la estructura de datos
+## 4. Explorar los datos antes de calcular
 
-Antes de calcular, debe entender que contiene `sedes`.
-
-Cada sede es un diccionario parecido a este:
+Debajo del import, puede usar temporalmente estas lineas para explorar:
 
 ```python
-{
-    "nombre": "Soda San Pedro",
-    "provincia": "San Jose",
-    "tipo": "Alimentacion",
-    "ventas": [85000, 92000, 78000, 110000, 97000],
-    "meta": 450000,
-}
+#print("Cantidad de sedes:", len(sedes))
+#print("Tipo de variable sedes:", type(sedes))
+#print("Tipo de variable sedes[0]:", type(sedes[0]))
+#print("Datos por sede:", sedes[0].keys())
+#print("Primera sede:", sedes[0]["nombre"])
 ```
 
-### Para que sirve cada estructura
-
-| Estructura | Donde aparece | Para que sirve |
-|---|---|---|
-| Lista | `sedes` | Guardar varias sedes y recorrerlas con `for`. |
-| Diccionario | cada sede | Guardar campos con nombre: `nombre`, `provincia`, `ventas`, `meta`. |
-| Lista | `ventas` | Guardar las ventas de lunes a viernes. |
-| Set | `provincias` | Guardar provincias sin repetir. |
-| Tupla | `(nombre, total)` | Guardar un par fijo para el ranking. |
-
-### Primer bloque recomendado
-
-Agregue debajo del import:
-
-```python
-print("Datos cargados:", len(sedes), "sedes")
-print("Primera sede:", sedes[0])
-```
+Cuando el programa final ya este armado, deje estas lineas comentadas para que la salida coincida con el reporte esperado.
 
 ### Por que hacerlo
 
-Esto confirma que el import funciona y permite ver la forma real de los datos.
-Si el programa falla aqui, no tiene sentido avanzar al calculo.
+Antes de escribir ciclos y funciones, debe confirmar que el import funciona y que entiende la forma de los datos. El algoritmo depende de claves como `ventas`, `meta`, `nombre`, `provincia` y `tipo`.
 
 ---
 
-## 4. Crear la primera funcion: `calcular_total`
+## 5. Funcion `calcular_total`
 
-### Que debe hacer
-
-Recibir una lista de ventas y retornar la suma.
+Agregue la primera funcion debajo del import y antes del codigo principal:
 
 ```python
 def calcular_total(ventas):
-    """Retorna la suma de una lista de ventas."""
+    """Recibo una lista, la sumo y retorno el total."""
     return sum(ventas)
 ```
 
-### Por que usar una funcion
+### Para que sirve
 
-Porque el total se necesita para todas las sedes. Si escribe `sum(...)` muchas
-veces en diferentes partes, el codigo se vuelve repetitivo y mas dificil de
-mantener.
+Recibe la lista de ventas de una sede y retorna el total semanal. Es una funcion pequena, pero evita repetir `sum(ventas)` en varias partes del programa.
 
-### Para que sirve en el reporte
+### Ejemplo mental
 
-El total semanal permite saber cuanto vendio una sede y comparar ese resultado
-contra la meta.
+Si una sede tiene ventas `[85000, 92000, 78000, 110000, 97000]`, el total debe ser `462000`.
 
 ---
 
-## 5. Crear `calcular_promedio`
+## 6. Funcion `calcular_promedio`
 
-### Que debe hacer
-
-Recibir una lista de ventas y retornar el promedio.
+Agregue la funcion de promedio:
 
 ```python
-def calcular_promedio(ventas):
-    """Retorna el promedio de una lista de ventas."""
-    return sum(ventas) / len(ventas)
+def calcular_promedio(lista):
+    """Retorna el promedio de ventas de una lista."""
+    return sum(lista) / len(lista)
 ```
 
-### Por que usar `len(ventas)`
+### Por que se usa `len(lista)`
 
-Porque el promedio depende de la cantidad de datos. No conviene dividir entre
-`5` de forma fija si luego el caso cambia a 6 o 7 dias.
+Porque el programa no deberia depender de que siempre haya exactamente cinco dias. Si luego se agregan mas ventas, el promedio sigue funcionando.
 
 ### Para que sirve
 
-El promedio diario ayuda a interpretar el comportamiento de la sede, no solo el
-resultado acumulado.
+El promedio diario complementa el total. Una sede puede cumplir la meta, pero el promedio ayuda a explicar el ritmo de ventas.
 
 ---
 
-## 6. Crear `calcular_porcentaje_cumplimiento`
+## 7. Funcion `calcular_porcentaje`
 
-### Que debe hacer
-
-Calcular que porcentaje de la meta se alcanzo.
+Agregue la funcion para calcular el cumplimiento:
 
 ```python
-def calcular_porcentaje_cumplimiento(total, meta):
-    """Retorna el porcentaje de cumplimiento respecto a la meta."""
+def calcular_porcentaje(total, meta):
+    """Calcula el porcentaje de cumplimiento de una meta."""
     return total / meta * 100
 ```
 
-### Por que es importante
+### Por que retorna un numero y no un texto
 
-Dos sedes pueden tener totales diferentes, pero tambien metas diferentes. El
-porcentaje permite comparar el avance de cada una de forma mas justa.
+El porcentaje se usa dos veces:
 
-### Para que sirve
+1. Para decidir la clasificacion con condicionales.
+2. Para imprimirlo con formato en el reporte.
 
-Permite imprimir mensajes como:
+Por eso conviene retornarlo como numero. El formato `:.2f%` se aplica al imprimir.
 
-```text
-Cumplimiento: 102.7%
-```
-
-### Prueba rapida
-
-```python
-assert calcular_porcentaje_cumplimiento(450000, 450000) == 100
-```
+> Si durante la clase alguien agrego un parametro `formato=True`, puede conservarlo solo si la funcion sigue permitiendo obtener el porcentaje numerico para comparar. En esta solucion docente se usa la version simple y numerica.
 
 ---
 
-## 7. Crear `clasificar_sede`
+## 8. Funcion `calcular_clasificacion`
 
-### Que debe hacer
-
-Convertir el total y la meta en una decision.
+Agregue la funcion que convierte el porcentaje en una decision:
 
 ```python
-def clasificar_sede(total, meta):
-    """Clasifica una sede segun su total semanal y su meta."""
-    if total >= meta:
-        return "Meta alcanzada"
-    if total >= meta * 0.8:
-        return "Cerca de la meta"
-    return "Requiere atencion"
+def calcular_clasificacion(total, meta):
+    """Clasifica la sede segun el porcentaje de cumplimiento de la meta."""
+    porcentaje = calcular_porcentaje(total, meta)
+
+    if porcentaje >= 100:
+        mensaje_sede = "Meta alcanzada."
+    elif porcentaje >= 80:
+        mensaje_sede = "Meta casi alcanzada, prestar atención."
+    else:
+        mensaje_sede = "Meta no alcanzada URGE ATENCION."
+
+    return mensaje_sede
 ```
 
-### Por que no basta con calcular
+### Por que esta parte es importante
 
-El analisis de datos no termina en numeros. Un algoritmo util ayuda a tomar una
-decision. Aqui la decision es clasificar el estado de cada sede.
-
-### Por que se usa condicional
-
-Porque el programa debe tomar caminos distintos segun el resultado:
+Aqui aparece la ejecucion condicional. El programa toma una ruta distinta segun el porcentaje calculado.
 
 | Condicion | Resultado |
 |---|---|
-| `total >= meta` | `Meta alcanzada` |
-| `total >= meta * 0.8` | `Cerca de la meta` |
-| cualquier otro caso | `Requiere atencion` |
+| `porcentaje >= 100` | Meta alcanzada. |
+| `porcentaje >= 80` | Meta casi alcanzada, prestar atención. |
+| Menor que 80 | Meta no alcanzada URGE ATENCION. |
 
-### Pruebas rapidas
-
-```python
-assert clasificar_sede(500000, 450000) == "Meta alcanzada"
-assert clasificar_sede(380000, 450000) == "Cerca de la meta"
-assert clasificar_sede(250000, 450000) == "Requiere atencion"
-```
+El orden importa: primero se pregunta por 100 o mas. Si se preguntara primero por 80, una sede con 105 tambien entraria ahi.
 
 ---
 
-## 8. Crear `crear_reporte`
+## 9. Funcion `imprimir_reporte`
 
-### Que debe hacer
-
-Recorrer todas las sedes, calcular indicadores y construir una nueva lista con
-los resultados procesados.
+Agregue una funcion para mostrar el reporte de forma ordenada:
 
 ```python
-def crear_reporte(sedes):
-    """Construye los datos calculados para cada sede."""
-    reporte = []
+def imprimir_reporte(datos_reporte):
+    """Imprime el reporte final de ventas por sede."""
+    print("
+REPORTE FINAL")
+    print("-" * 60)
 
-    for sede in sedes:
-        total = calcular_total(sede["ventas"])
-        promedio = calcular_promedio(sede["ventas"])
-        porcentaje = calcular_porcentaje_cumplimiento(total, sede["meta"])
-        estado = clasificar_sede(total, sede["meta"])
-
-        reporte.append(
-            {
-                "nombre": sede["nombre"],
-                "provincia": sede["provincia"],
-                "tipo": sede["tipo"],
-                "total": total,
-                "promedio": promedio,
-                "porcentaje": porcentaje,
-                "estado": estado,
-            }
-        )
-
-    return reporte
-```
-
-### Por que crear una lista nueva
-
-Porque `sedes` contiene datos originales. El `reporte` contiene datos
-procesados. Separar ambos evita modificar la fuente y deja claro que los
-indicadores son resultados derivados.
-
-### Por que usar un ciclo
-
-Porque todas las sedes deben pasar por el mismo proceso. El ciclo evita copiar
-el mismo codigo cinco veces.
-
-### Que debe contener cada fila del reporte
-
-| Campo | Origen |
-|---|---|
-| `nombre` | dato original |
-| `provincia` | dato original |
-| `tipo` | dato original |
-| `total` | calculado |
-| `promedio` | calculado |
-| `porcentaje` | calculado |
-| `estado` | decision condicional |
-
-### Prueba rapida
-
-```python
-reporte = crear_reporte(sedes)
-assert len(reporte) == len(sedes)
-assert reporte[0]["nombre"] == "Soda San Pedro"
-assert reporte[0]["total"] == 462000
-```
-
----
-
-## 9. Crear `mostrar_reporte`
-
-### Que debe hacer
-
-Imprimir el reporte principal de forma clara.
-
-```python
-def mostrar_reporte(reporte):
-    """Imprime el reporte de analisis."""
-    print("REPORTE DE EMPRENDIMIENTOS CR")
-    print("-" * 72)
-
-    for fila in reporte:
+    for fila in datos_reporte:
         print(f"Sede: {fila['nombre']}")
         print(f"Provincia: {fila['provincia']}")
         print(f"Tipo: {fila['tipo']}")
-        print(f"Total semanal: C{fila['total']:,.0f}")
-        print(f"Promedio diario: C{fila['promedio']:,.0f}")
-        print(f"Cumplimiento: {fila['porcentaje']:.1f}%")
+        print(f"Total semanal: ₡{fila['total']:,.0f}")
+        print(f"Promedio diario: ₡{fila['promedio']:,.0f}")
+        print(f"Cumplimiento: {fila['porcentaje']:.2f}%")
         print(f"Estado: {fila['estado']}")
-        print("-" * 72)
+        print("-" * 60)
+
+    print("Cantidad de sedes:", len(datos_reporte))
 ```
 
-### Por que separar mostrar de calcular
+### Para que sirve
 
-Una funcion calcula datos y otra los muestra. Esto permite revisar errores con
-mas facilidad:
+Esta funcion separa la presentacion del calculo. Primero construimos datos limpios en `reporte`; despues imprimimos esos datos.
 
-- si el calculo esta mal, revise `crear_reporte`;
-- si el formato esta mal, revise `mostrar_reporte`.
+### Que estructura recibe
 
-### Para que sirven los f-strings
-
-Permiten imprimir datos con texto claro y formato legible:
-
-```python
-C{fila['total']:,.0f}
-{fila['porcentaje']:.1f}%
-```
+Recibe una **lista de diccionarios**. Cada diccionario representa una fila del reporte.
 
 ---
 
-## 10. Crear `mostrar_resumen`
+## 10. Preparar las estructuras del programa principal
 
-### Que debe hacer
-
-Crear un resumen final con tres decisiones:
-
-1. provincias presentes;
-2. sedes que requieren atencion;
-3. ranking de sedes por total.
+Despues de las funciones, cree las estructuras que se van a llenar con el ciclo:
 
 ```python
-def mostrar_resumen(reporte):
-    """Imprime resultados agregados usando set y tuplas."""
-    provincias = set()
-    sedes_atencion = []
-    ranking = []
-
-    for fila in reporte:
-        provincias.add(fila["provincia"])
-        ranking.append((fila["nombre"], fila["total"]))
-
-        if fila["estado"] == "Requiere atencion":
-            sedes_atencion.append(fila["nombre"])
-
-    ranking_ordenado = sorted(ranking, key=lambda par: par[1], reverse=True)
-    mejor_sede, mejor_total = ranking_ordenado[0]
-
-    print("RESUMEN FINAL")
-    print(f"Provincias presentes: {provincias}")
-    print(f"Sedes que requieren atencion: {sedes_atencion}")
-    print(f"Mejor sede: {mejor_sede} con C{mejor_total:,.0f}")
-    print("Ranking:")
-
-    for posicion, (nombre, total) in enumerate(ranking_ordenado, start=1):
-        print(f"{posicion}. {nombre}: C{total:,.0f}")
+reporte = []
+provincias = set()
+ranking = []
+venta_mas_alta = 0
+sedes_mas_ingresos = []
 ```
 
-### Por que usar `set`
+### Que guarda cada variable
 
-Porque las provincias no deben repetirse. Si dos sedes fueran de San Jose, el
-set guardaria `San Jose` una sola vez.
-
-### Por que usar tuplas
-
-`(nombre, total)` representa un par fijo: la sede y su total. Es suficiente para
-crear el ranking sin cargar todos los campos otra vez.
-
-### Por que aparece `sorted`
-
-Se usa para ordenar el ranking de mayor a menor total. En esta guia aparece en
-la solucion esperada, pero si el docente quiere bajar la dificultad, puede
-pedir que el estudiante encuentre la mejor sede con un ciclo simple.
+| Variable | Tipo | Para que sirve |
+|---|---|---|
+| `reporte` | Lista | Guardar una fila procesada por cada sede. |
+| `provincias` | Set | Guardar provincias sin repetir. |
+| `ranking` | Lista | Guardar tuplas `(nombre, total)` para comparar sedes. |
+| `venta_mas_alta` | Numero | Recordar el total mas alto encontrado. |
+| `sedes_mas_ingresos` | Lista | Guardar una o varias sedes si hay empate. |
 
 ---
 
-## 11. Crear `ejecutar_pruebas`
+## 11. Recorrer las sedes con un ciclo
 
-### Que debe hacer
-
-Validar que las funciones principales funcionan antes de generar el reporte.
+Agregue el ciclo principal:
 
 ```python
-def ejecutar_pruebas():
-    """Validaciones minimas para la solucion docente."""
-    assert calcular_total([100, 200, 300]) == 600
-    assert calcular_promedio([100, 200, 300]) == 200
-    assert calcular_porcentaje_cumplimiento(450000, 450000) == 100
-    assert clasificar_sede(500000, 450000) == "Meta alcanzada"
-    assert clasificar_sede(380000, 450000) == "Cerca de la meta"
-    assert clasificar_sede(250000, 450000) == "Requiere atencion"
+for sede in sedes:
+    ventas = sede["ventas"]
+    meta = sede["meta"]
+
+    total_sede = calcular_total(ventas)
+    promedio_sede = calcular_promedio(ventas)
+    porcentaje_sede = calcular_porcentaje(total_sede, meta)
+    estado = calcular_clasificacion(total_sede, meta)
 ```
 
-### Por que usar `assert`
+### Por que usar `for sede in sedes`
 
-`assert` permite comprobar rapidamente si una parte del programa hace lo que se
-espera. Si una prueba falla, el programa se detiene y muestra que algo debe
-revisarse.
+Porque `sedes` es una lista. Cada vuelta del ciclo procesa un diccionario diferente.
 
-No reemplaza una explicacion, pero ayuda a detectar errores antes de revisar el
-reporte completo.
+### Que pasa dentro del ciclo
+
+1. Se extraen los datos base de la sede actual.
+2. Se llaman funciones para calcular resultados.
+3. Se guardan resultados para el reporte y resumen final.
 
 ---
 
-## 12. Ejecutar el programa completo
+## 12. Agregar cada fila al reporte
 
-Al final del archivo agregue:
+Dentro del ciclo, despues de calcular las variables, agregue:
 
 ```python
-if __name__ == "__main__":
-    ejecutar_pruebas()
-    reporte = crear_reporte(sedes)
-    mostrar_reporte(reporte)
-    mostrar_resumen(reporte)
+    reporte.append(
+        {
+            "nombre": sede["nombre"],
+            "provincia": sede["provincia"],
+            "tipo": sede["tipo"],
+            "total": total_sede,
+            "promedio": promedio_sede,
+            "porcentaje": porcentaje_sede,
+            "estado": estado,
+        }
+    )
 ```
 
-### Por que usar `if __name__ == "__main__"`
+### Por que usar un diccionario
 
-Esta estructura indica que esas instrucciones se ejecutan cuando el archivo se
-corre directamente. Es una buena practica para separar definiciones de
-funciones y ejecucion principal.
-
-### Orden correcto
-
-1. Primero se prueban funciones.
-2. Luego se crea el reporte.
-3. Luego se imprime el reporte principal.
-4. Al final se imprime el resumen.
+Porque una fila del reporte tiene varios campos con nombre. Esto hace que `imprimir_reporte` pueda leer `fila['nombre']`, `fila['total']`, `fila['estado']`, etc.
 
 ---
 
-## 13. Resultado esperado
+## 13. Guardar provincias y ranking
 
-Al ejecutar el programa, debe verse una salida con esta estructura:
+Tambien dentro del ciclo, agregue:
+
+```python
+    provincias.add(sede["provincia"])
+    ranking.append((sede["nombre"], total_sede))
+```
+
+### Por que usar `set` para provincias
+
+Si dos sedes fueran de la misma provincia, el set la guardaria una sola vez. No hace falta escribir un `if` para evitar repetidos.
+
+### Por que usar tupla en ranking
+
+`(sede["nombre"], total_sede)` es un par fijo: nombre y total. No necesitamos modificar ese par despues de crearlo.
+
+---
+
+## 14. Conservar una o varias sedes con mayor ingreso
+
+Dentro del ciclo, agregue la logica de maximo:
+
+```python
+    if total_sede > venta_mas_alta:
+        venta_mas_alta = total_sede
+        sedes_mas_ingresos = [sede["nombre"]]
+    elif total_sede == venta_mas_alta:
+        sedes_mas_ingresos.append(sede["nombre"])
+```
+
+### Por que no usar solo `<=`
+
+Si se usa solo `<=`, se puede perder informacion o mezclar casos distintos. Aqui se separan dos situaciones:
+
+| Caso | Accion |
+|---|---|
+| La sede supera el maximo anterior | Se actualiza el maximo y se reinicia la lista de ganadoras. |
+| La sede empata el maximo actual | Se agrega como otra ganadora. |
+| La sede queda por debajo | No se cambia nada. |
+
+Esta parte responde al caso real de empate: si dos sedes tienen la venta mas alta, ambas deben conservarse.
+
+---
+
+## 15. Imprimir el reporte y el resumen final
+
+Despues del ciclo, fuera del `for`, agregue:
+
+```python
+imprimir_reporte(reporte)
+
+print("
+RESUMEN FINAL")
+print("Provincias analizadas:", provincias)
+print("Ranking base:", ranking)
+print(f"Venta más alta: ₡{venta_mas_alta:,.0f}")
+print("Sedes con más ingresos:", *sedes_mas_ingresos)
+```
+
+### Por que va fuera del ciclo
+
+Si se imprime dentro del ciclo, el reporte aparece incompleto varias veces. Fuera del ciclo se imprime una sola vez, cuando todas las sedes ya fueron procesadas.
+
+---
+
+## 16. Salida esperada aproximada
+
+Al ejecutar el programa, debe verse una salida similar a esta:
 
 ```text
-REPORTE DE EMPRENDIMIENTOS CR
-------------------------------------------------------------------------
+REPORTE FINAL
+------------------------------------------------------------
 Sede: Soda San Pedro
 Provincia: San Jose
 Tipo: Alimentacion
-Total semanal: C462,000
-Promedio diario: C92,400
-Cumplimiento: 102.7%
-Estado: Meta alcanzada
-------------------------------------------------------------------------
-...
+Total semanal: ₡462,000
+Promedio diario: ₡92,400
+Cumplimiento: 102.67%
+Estado: Meta alcanzada.
+------------------------------------------------------------
+Sede: Panaderia Cartago
+Provincia: Cartago
+Tipo: Panaderia
+Total semanal: ₡351,000
+Promedio diario: ₡70,200
+Cumplimiento: 92.37%
+Estado: Meta casi alcanzada, prestar atención.
+------------------------------------------------------------
+Sede: Cafeteria Liberia
+Provincia: Guanacaste
+Tipo: Cafeteria
+Total semanal: ₡537,000
+Promedio diario: ₡107,400
+Cumplimiento: 107.40%
+Estado: Meta alcanzada.
+------------------------------------------------------------
+Sede: Feria de Heredia
+Provincia: Heredia
+Tipo: Feria
+Total semanal: ₡380,000
+Promedio diario: ₡76,000
+Cumplimiento: 97.44%
+Estado: Meta casi alcanzada, prestar atención.
+------------------------------------------------------------
+Sede: Marisqueria Puntarenas
+Provincia: Puntarenas
+Tipo: Restaurante
+Total semanal: ₡574,000
+Promedio diario: ₡114,800
+Cumplimiento: 102.50%
+Estado: Meta alcanzada.
+------------------------------------------------------------
+Cantidad de sedes: 5
+
 RESUMEN FINAL
-Provincias presentes: {...}
-Sedes que requieren atencion: []
-Mejor sede: Marisqueria Puntarenas con C574,000
-Ranking:
-1. Marisqueria Puntarenas: C574,000
-...
+Provincias analizadas: {'San Jose', 'Cartago', 'Guanacaste', 'Heredia', 'Puntarenas'}
+Ranking base: [('Soda San Pedro', 462000), ('Panaderia Cartago', 351000), ('Cafeteria Liberia', 537000), ('Feria de Heredia', 380000), ('Marisqueria Puntarenas', 574000)]
+Venta más alta: ₡574,000
+Sedes con más ingresos: Marisqueria Puntarenas
 ```
 
-Los valores principales esperados son:
-
-| Sede | Total | Estado |
-|---|---:|---|
-| Soda San Pedro | 462000 | Meta alcanzada |
-| Panaderia Cartago | 351000 | Cerca de la meta |
-| Cafeteria Liberia | 537000 | Meta alcanzada |
-| Feria de Heredia | 380000 | Cerca de la meta |
-| Marisqueria Puntarenas | 574000 | Meta alcanzada |
+> Nota: el orden de `provincias` puede variar porque es un `set`. Eso es normal.
 
 ---
 
-## 14. Checklist de implementacion
+## 17. Checklist de revision para estudiantes
 
-Marque cada punto al completar el archivo:
+Antes de entregar o cerrar la practica, revise:
 
-- [ ] El archivo importa `sedes` desde `sedes.py`.
-- [ ] Cree `calcular_total`.
-- [ ] Cree `calcular_promedio`.
-- [ ] Cree `calcular_porcentaje_cumplimiento`.
-- [ ] Cree `clasificar_sede`.
-- [ ] Cree `crear_reporte`.
-- [ ] Cree `mostrar_reporte`.
-- [ ] Cree `mostrar_resumen`.
-- [ ] Cree `ejecutar_pruebas`.
-- [ ] Agregue el bloque `if __name__ == "__main__":`.
-- [ ] Ejecute el programa sin errores.
-- [ ] Compare la salida con el resultado esperado.
+- `sedes.py` no fue modificado.
+- El archivo inicia con `from sedes import sedes`.
+- Las funciones retornan valores; no imprimen directamente excepto `imprimir_reporte`.
+- `calcular_porcentaje` retorna un numero.
+- La clasificacion usa `if`, `elif` y `else`.
+- El ciclo `for sede in sedes` procesa todas las sedes.
+- `reporte` es una lista de diccionarios.
+- `provincias` es un set.
+- `ranking` guarda tuplas `(nombre, total)`.
+- La logica de mayor venta conserva empates.
+- El reporte se imprime despues de terminar el ciclo.
 
 ---
 
-## 15. Preguntas de cierre
+## 18. Reto corto de cierre
 
-Responda con sus palabras:
+Modifique temporalmente los datos para que dos sedes tengan el mismo total mas alto. Ejecute el programa y confirme que `Sedes con más ingresos` muestra ambos nombres.
 
-1. Por que `sedes` es una lista?
-2. Por que cada sede es un diccionario?
-3. Para que sirve una funcion en este problema?
-4. Donde se usa ejecucion condicional?
-5. Donde se usa un ciclo?
-6. Que ventaja tiene separar `crear_reporte` y `mostrar_reporte`?
-7. Para que se uso el set?
-8. Para que se usaron las tuplas?
+Despues de probar, restaure los datos originales de `sedes.py`.
