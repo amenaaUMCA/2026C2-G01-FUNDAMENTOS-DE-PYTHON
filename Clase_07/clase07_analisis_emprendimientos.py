@@ -5,7 +5,6 @@ sede usando listas, diccionarios, funciones, ciclos y condicionales.
 """
 from sedes import sedes
 
-
 def calcular_total(ventas):
     """Recibo una lista, la sumo y retorno el total"""
     return sum(ventas)
@@ -14,25 +13,37 @@ def calcular_promedio(lista):
     """Retorna el promedio de ventas de una lista"""
     return sum(lista) / len(lista)
 
+def calcular_porcentaje(total, meta, formato = False):
+    porcentaje = total / meta * 100
+    if formato:
+        return f"{porcentaje:.2f}%"
+    return porcentaje
+
+def calcular_clasificacion(total, meta):
+    porcentaje = calcular_porcentaje(total, meta)
+    if porcentaje >= 100: # pyright: ignore[reportOperatorIssue]
+        mensaje_sede = "Meta alcanzada."
+    elif porcentaje >= 80: # pyright: ignore[reportOperatorIssue]
+        mensaje_sede = "Meta casi alcanzada, prestar atención."
+    else:
+        mensaje_sede = "Meta no alcanzada URGE ATENCION."
+    return mensaje_sede
+
 print("Cantidad de sedes:", len(sedes))
-print("Tipo de variable sedes:",type(sedes))
-print("Tipo de variable sedes[0]:",type(sedes[0]))
-print("Datos por sede:",sedes[0].keys())
-print("Primera sede:",sedes[0]['nombre'])
+#print("Tipo de variable sedes:",type(sedes))
+#print("Tipo de variable sedes[0]:",type(sedes[0]))
+#print("Datos por sede:",sedes[0].keys())
+#print("Primera sede:",sedes[0]['nombre'])
+reporte = []
+for sede in sedes:
+    ventas = sede["ventas"]
+    meta = sede['meta']
 
-sede_demo = sedes[0]
-ventas = sede_demo["ventas"]
-meta = sede_demo['meta']
+    total_sede = calcular_total(ventas)
+    promedio_sede = calcular_promedio(ventas)
+    porcentaje_sede = calcular_porcentaje(total_sede, meta, True)
+    estado = calcular_clasificacion(total_sede, meta)
 
-total_sede = calcular_total(ventas)
-promedio_sede = total_sede / len(ventas)
-porcentaje_sede = total_sede / meta * 100
-
-if porcentaje_sede >= 100:
-    mensaje_sede = "Meta alcanzada."
-elif porcentaje_sede >= 80:
-    mensaje_sede = "Meta casi alcanzada, prestar atención."
-else:
-    mensaje_sede = "Meta no alcanzada URGE ATENCION."
-
-print(porcentaje_sede, total_sede)  #[85000, 92000, 78000, 110000, 97000]
+#print(imprimir_reporte(reporte))
+#MAS ingresos
+#Provincias
