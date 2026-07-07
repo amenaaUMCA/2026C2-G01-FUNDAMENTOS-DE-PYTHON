@@ -6,10 +6,8 @@
 **Notebook de apoyo:** `NOTEBOOK 05 - Verificador Basico Semana 08.ipynb`  
 **Fuente de datos:** `datos_clinica.json`  
 **Solucion docente:** `analisis_hospital_solucion.py`  
-**Respaldo nivel medio:** `nivel_medio/`
 
-Esta version baja el nivel de dificultad. El objetivo no es crear una
-arquitectura con muchas funciones. El tema principal de la clase es **ciclos**:
+El tema principal de la clase es **ciclos**:
 leer una lista de pacientes desde JSON, recorrerla con `for` y acumular
 indicadores simples.
 
