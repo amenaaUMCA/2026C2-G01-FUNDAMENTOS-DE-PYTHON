@@ -43,7 +43,6 @@ else:
     # Variables acumuladoras del analisis.  suma_edades, conteo_san_jose, 
     # conteo_mujeres, conteo_hombres y adultos_mayores.
     suma_edades = 0
-    conteo_enfermedades = {}
 
     # 4. Ciclo principal
     # Cada vuelta del ciclo representa un paciente del JSON.
@@ -52,13 +51,7 @@ else:
         edad = paciente["edad"]
         provincia = paciente["provincia"]
         genero = paciente["genero"]
-        enfermedades = paciente["enfermedades"]
 
-        for enfermedad in enfermedades:
-            if enfermedad in conteo_enfermedades:
-                conteo_enfermedades[enfermedad] += 1
-            else:
-                conteo_enfermedades[enfermedad] = 1
         # REQUERIMIENTO 3:
         # Complete aqui los acumuladores dentro del ciclo.
 
@@ -94,7 +87,3 @@ else:
     print("\nCONCLUSIONES")
     print("Conclusion 1: ______________________________")
     print("Conclusion 2: ______________________________")
-
-    print("\nCONTEO ENFERMEDADES")
-    for enfermedad, cantidad in conteo_enfermedades.items():
-        print(enfermedad, ":", cantidad)

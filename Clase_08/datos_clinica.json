@@ -6,8 +6,14 @@
     "genero": "F",
     "provincia": "Heredia",
     "canton": "Barva",
-    "enfermedades": ["migraña", "gripe"],
-    "medicamentos": ["acetaminofen", "ibuprofeno"]
+    "enfermedades": [
+      "migraña",
+      "gripe"
+    ],
+    "medicamentos": [
+      "acetaminofen",
+      "ibuprofeno"
+    ]
   },
   {
     "cedula": 31321321,
@@ -16,8 +22,13 @@
     "genero": "M",
     "provincia": "Cartago",
     "canton": "Pacayas",
-    "enfermedades": ["gastritis"],
-    "medicamentos": ["antiacido", "omeprazol"]
+    "enfermedades": [
+      "gastritis"
+    ],
+    "medicamentos": [
+      "antiacido",
+      "omeprazol"
+    ]
   },
   {
     "cedula": 87539856,
@@ -26,8 +37,14 @@
     "genero": "F",
     "provincia": "San Jose",
     "canton": "Pavas",
-    "enfermedades": ["tos cronica", "alergia"],
-    "medicamentos": ["jarabe", "loratadina"]
+    "enfermedades": [
+      "tos cronica",
+      "alergia"
+    ],
+    "medicamentos": [
+      "jarabe",
+      "loratadina"
+    ]
   },
   {
     "cedula": 45522221,
@@ -36,8 +53,14 @@
     "genero": "M",
     "provincia": "Limón",
     "canton": "Puerto Viejo",
-    "enfermedades": ["migraña", "hipertension"],
-    "medicamentos": ["acetaminofen", "losartan"]
+    "enfermedades": [
+      "migraña",
+      "hipertensión"
+    ],
+    "medicamentos": [
+      "acetaminofen",
+      "losartan"
+    ]
   },
   {
     "cedula": 45354632,
@@ -46,8 +69,14 @@
     "genero": "F",
     "provincia": "Guanacaste",
     "canton": "Liberia",
-    "enfermedades": ["dolor cronico", "gripe"],
-    "medicamentos": ["acetaminofen", "tramadol"]
+    "enfermedades": [
+      "dolor cronico",
+      "gripe"
+    ],
+    "medicamentos": [
+      "acetaminofen",
+      "tramadol"
+    ]
   },
   {
     "cedula": 112233445,
@@ -56,8 +85,13 @@
     "genero": "M",
     "provincia": "San Jose",
     "canton": "Desamparados",
-    "enfermedades": ["diabetes tipo 2"],
-    "medicamentos": ["insulina", "metformina"]
+    "enfermedades": [
+      "diabetes tipo 2"
+    ],
+    "medicamentos": [
+      "insulina",
+      "metformina"
+    ]
   },
   {
     "cedula": 223344556,
@@ -66,8 +100,14 @@
     "genero": "F",
     "provincia": "Alajuela",
     "canton": "San Ramón",
-    "enfermedades": ["artritis", "hipertension"],
-    "medicamentos": ["ibuprofeno", "losartan"]
+    "enfermedades": [
+      "artritis",
+      "hipertension"
+    ],
+    "medicamentos": [
+      "ibuprofeno",
+      "losartan"
+    ]
   },
   {
     "cedula": 334455667,
@@ -76,8 +116,12 @@
     "genero": "M",
     "provincia": "Heredia",
     "canton": "Santo Domingo",
-    "enfermedades": ["asma"],
-    "medicamentos": ["salbutamol"]
+    "enfermedades": [
+      "asma"
+    ],
+    "medicamentos": [
+      "salbutamol"
+    ]
   },
   {
     "cedula": 445566778,
@@ -86,8 +130,14 @@
     "genero": "F",
     "provincia": "Cartago",
     "canton": "Tres Ríos",
-    "enfermedades": ["diabetes tipo 2", "colesterol alto"],
-    "medicamentos": ["metformina", "atorvastatina"]
+    "enfermedades": [
+      "diabetes tipo 2",
+      "colesterol alto"
+    ],
+    "medicamentos": [
+      "metformina",
+      "atorvastatina"
+    ]
   },
   {
     "cedula": 556677889,
@@ -96,8 +146,12 @@
     "genero": "M",
     "provincia": "Puntarenas",
     "canton": "Cóbano",
-    "enfermedades": ["hipertension"],
-    "medicamentos": ["losartan"]
+    "enfermedades": [
+      "hipertension"
+    ],
+    "medicamentos": [
+      "losartan"
+    ]
   },
   {
     "cedula": 667788990,
@@ -106,8 +160,14 @@
     "genero": "F",
     "provincia": "San Jose",
     "canton": "Moravia",
-    "enfermedades": ["migraña", "ansiedad"],
-    "medicamentos": ["acetaminofen", "fluoxetina"]
+    "enfermedades": [
+      "migraña",
+      "ansiedad"
+    ],
+    "medicamentos": [
+      "acetaminofen",
+      "fluoxetina"
+    ]
   },
   {
     "cedula": 778899001,
@@ -116,8 +176,12 @@
     "genero": "M",
     "provincia": "Guanacaste",
     "canton": "Nicoya",
-    "enfermedades": ["artritis"],
-    "medicamentos": ["ibuprofeno"]
+    "enfermedades": [
+      "artritis"
+    ],
+    "medicamentos": [
+      "ibuprofeno"
+    ]
   },
   {
     "cedula": 889900112,
@@ -126,8 +190,14 @@
     "genero": "F",
     "provincia": "Alajuela",
     "canton": "Grecia",
-    "enfermedades": ["alergia", "asma"],
-    "medicamentos": ["loratadina", "salbutamol"]
+    "enfermedades": [
+      "alergia",
+      "asma"
+    ],
+    "medicamentos": [
+      "loratadina",
+      "salbutamol"
+    ]
   },
   {
     "cedula": 990011223,
@@ -136,8 +206,12 @@
     "genero": "M",
     "provincia": "San Jose",
     "canton": "Curridabat",
-    "enfermedades": ["gastritis"],
-    "medicamentos": ["omeprazol"]
+    "enfermedades": [
+      "gastritis"
+    ],
+    "medicamentos": [
+      "omeprazol"
+    ]
   },
   {
     "cedula": 123456789,
@@ -146,7 +220,11 @@
     "genero": "F",
     "provincia": "Limón",
     "canton": "Siquirres",
-    "enfermedades": ["colesterol alto"],
-    "medicamentos": ["atorvastatina"]
+    "enfermedades": [
+      "colesterol alto"
+    ],
+    "medicamentos": [
+      "atorvastatina"
+    ]
   }
 ]
